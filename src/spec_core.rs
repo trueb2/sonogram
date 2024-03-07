@@ -180,6 +180,9 @@ impl SpecCompute {
     #[cfg(feature = "rayon")]
     pub fn par_compute(&self, data: Option<&[f32]>) -> Spectrogram {
         let data = data.unwrap_or(self.data.as_slice());
+        if self.num_bins >= data.len() {
+            panic!("More bins than data");
+        }
         let width = (data.len() - self.num_bins) / self.step_size;
         let height = self.num_bins / 2;
 
